@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home page</title>
+</head>
+<style>
+    img{
+        width: 100px;
+    }
+</style>
+<body>
+    <h3>Welcome to home page</h3>
+    <form action="/listing/post/new" method="GET">
+        <button>New post</button>
+    </form>
+    <ul>
+    <% for(let listing of listings){ %>
+    <div class="card">
+        <li><a href="/listing/<%= listing._id %>"><%= listing.title %></a>
+        </li>
+    </div>
+    <% } %>
+    </ul>
+</body>
+</html>
