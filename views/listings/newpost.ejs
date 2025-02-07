@@ -1,24 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<style>
-    input{
-        margin: 3px;
-    }
-</style>
+<% layout("layout/boilerplate.ejs") %>
 <body>
-    <h3>New Post</h3>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h3>New Post</h3>
     <form action="/newlist" method="POST">
-        <input type="text" name="listing[title]" placeholder="title"> <br>
-        <textarea name="listing[description]" placeholder="description" id="description"></textarea><br>
-        <input type="number" name="listing[price]" placeholder="Price"> <br>
-        <input type="text" name="listing[location]" placeholder="location"> <br>
-        <input type="text" name="listing[Country]" placeholder="Country"> <br>
-        <button>Submit</button>
+        <div class="mb-3">
+            <lable for="title" class="form-lable">Title</lable>
+            <input type="text" name="listing[title]" placeholder="title" class="form-control">
+        </div>
+        <div class="mb-3">
+            <lable for="description" class="form-lable">description</lable>
+            <textarea name="listing[description]" placeholder="description" id="description" class="form-control"></textarea>
+        </div>
+        <div class="md-3">
+            <lable for="image">image-link</lable>
+            <input type="text" name="image" placeholder="image-link" class="form-control">
+        </div>
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <lable for="price" class="form-lable">Price</lable>
+                <input type="number" name="listing[price]" placeholder="Price" class="form-control">
+            </div>
+            <div class="mb-3 col-md-8">
+                <lable for="Country" class="form-lable">Country</lable>
+                <input type="text" name="listing[Country]" placeholder="Country" class="form-control">
+            </div>
+        </div>
+        <div class="mb-3">
+            <lable for="location" class="form-lable">location</lable>
+            <input type="text" name="listing[location]" placeholder="location" class="form-control">
+        </div>
+        <button class="btn btn-dark">Submit</button>
     </form>
+</div>
+</div>
 </body>
-</html>

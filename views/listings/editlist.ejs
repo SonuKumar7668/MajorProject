@@ -1,19 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<% layout("layout/boilerplate.ejs") %>
 <body>
+    <div class="row">
+        <div class="col-md-8 offset-2">
     <h3>Edit <%= data.title %></h3>
         <form action="/updatelist/<%= data._id %>?_method=put" method="POST">
-            <input type="text" name="listing[title]" value="<%= data.title %>"> <br>
-            <textarea name="listing[description]" id="description"><%= data.description %></textarea><br>
-            <input type="number" name="listing[price]" value="<%= data.price %>"> <br>
-            <input type="text" name="listing[location]" value="<%= data.location %>"> <br>
-            <input type="text" name="listing[Country]" value="<%= data.Country %>"> <br>
-            <button>Submit</button>
+            <div class="mb-3">
+            <lable for="title" class="form-lable">Title</lable>
+            <input type="text" name="listing[title]" value="<%= data.title %>" class="form-control">
+            </div>
+            <div class="mb-3">
+                <lable for="title" class="form-lable">description</lable>
+                <textarea name="listing[description]" id="description" class="form-control"><%= data.description %></textarea>
+            </div>
+            <div class="md-3">
+                <lable for="image">image-link</lable>
+                <input type="text" name="image" value="<%= data.image %>" class="form-control">
+            </div>
+            <div class="row">
+            <div class="mb-3 col-md-4">
+                <lable for="price" class="form-lable">price</lable>
+                <input type="number" name="listing[price]" value="<%= data.price %>" class="form-control">
+            </div>
+            <div class="mb-3 col-md-8">
+                <lable for="location" class="form-lable">Location</lable>
+                <input type="text" name="listing[location]" value="<%= data.location %>" class="form-control">
+            </div>
+            </div>
+            <div class="mb-3">
+                <lable for="country" class="form-lable">Country</lable>
+                <input type="text" name="listing[Country]" value="<%= data.Country %>" class="form-control">
+            </div>
+                <button class="btn btn-dark">Submit</button>
         </form>
+    </div>
+    </div>
 </body>
-</html>

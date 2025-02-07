@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const methodoverride= require("method-override")
+const methodoverride= require("method-override");
+const engine = require('ejs-mate');
 const app = express();
 const port = 3000;
 const listing = require('./Models/listing.js');
@@ -10,9 +11,11 @@ app.set("views", path.join(__dirname,"views"));
 app.set("view engine","ejs");
 app.use(express.urlencoded({extended:true}));
 app.use(methodoverride("_method"));
+app.engine('ejs', engine);
+app.use(express.static(path.join(__dirname,"/public")));
 
 app.get("/",(req,res)=>{
-    res.send("Hello World");
+    res.render("listings/home.ejs");
 });
 
 app.get("/listing",async (req,res)=>{
@@ -48,7 +51,7 @@ app.get("/listing/:id/edit",async(req,res)=>{
 app.put("/updatelist/:id",async(req,res)=>{
     let {id}= req.params;
     await listing.findByIdAndUpdate(id,{...req.body.listing});
-    res.redirect("/listing");
+    res.redirect(`/listing/${id}`);
 
 })
 
