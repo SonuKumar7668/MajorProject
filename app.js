@@ -12,6 +12,19 @@ const { listingSchema, reviewSchema } = require("./schema.js");
 const review = require('./Models/review.js');
 const reviews = require("./routes/review.js");
 const cookieParser= require("cookie-parser");
+const session= require("express-session");
+const flash= require("connect-flash");
+
+const sessionOption= {
+    secret:"mysupersecretcode",
+    resave: false,
+    saveUninitialized: true,
+    cookie:{
+        expires: Date.now() + 7 *24 * 60 * 60 * 1000,
+        maxAge: 7 *24 * 60 * 60 * 1000,
+        httpOnly: true,
+    }
+}
 
 const listings = require("./routes/listing.js");
 
@@ -22,6 +35,8 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodoverride("_method"));
 app.use(express.static(path.join(__dirname, "/public")));
+app.use(session(sessionOption));
+app.use(flash());
 
 app.engine('ejs', engine);
 
@@ -48,17 +63,23 @@ const validateReview = (req, res, next) => {
 
 
 app.get("/", wrapAsync((req, res) => {
-    console.dir(req.cookies);
-    let {name="no-one"}=req.cookies;
-    // res.render("listings/home.ejs");
-    res.send(`hello ${name}`);
+    // console.dir(req.cookies);
+    // let {name="no-one"}=req.cookies;
+    res.render("listings/home.ejs");
+    // res.send(`hello ${name}`);
 }));
 
-app.get("/getcookies",(req,res)=>{
-    res.cookie("name","sonu");
-    // res.cookie("greet","hello");
-    res.send("cookie found");
-});
+// app.get("/getcookies",(req,res)=>{
+//     res.cookie("name","sonu");
+//     // res.cookie("greet","hello");
+//     res.send("cookie found");
+// });
+
+app.use((req,res,next)=>{
+    res.locals.success=req.flash("success");
+    res.locals.error=req.flash("error");
+    next();
+})
 
 app.use("/listing", listings);
 app.use("/listing/:id/review", reviews);
