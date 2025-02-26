@@ -9,12 +9,14 @@ const port = 3000;
 const wrapAsync = require('./utils/wrapAsync.js');
 const expressError = require('./utils/expressError.js');
 const { listingSchema, reviewSchema } = require("./schema.js");
-const review = require('./Models/review.js');
+// const review = require('./Models/review.js');
 const reviews = require("./routes/review.js");
 const cookieParser= require("cookie-parser");
 const session= require("express-session");
 const flash= require("connect-flash");
-
+const LocalStrategy = require("passport-local");
+const User= require("./Models/user.js");
+const userRoute= require("./routes/user.js");
 const sessionOption= {
     secret:"mysupersecretcode",
     resave: false,
@@ -27,6 +29,7 @@ const sessionOption= {
 }
 
 const listings = require("./routes/listing.js");
+const passport = require('passport');
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -37,6 +40,12 @@ app.use(methodoverride("_method"));
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(session(sessionOption));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.engine('ejs', engine);
 
@@ -69,6 +78,16 @@ app.get("/", wrapAsync((req, res) => {
     // res.send(`hello ${name}`);
 }));
 
+app.get("/demouser",async(req,res)=>{
+    let fakeuser=new User({
+        email: "sonu@gmail.com",
+        username: "sonu"
+    });
+    let newuser= await User.register(fakeuser,"password");
+    console.log(newuser);
+    res.send(newuser);
+})
+
 // app.get("/getcookies",(req,res)=>{
 //     res.cookie("name","sonu");
 //     // res.cookie("greet","hello");
@@ -83,6 +102,7 @@ app.use((req,res,next)=>{
 
 app.use("/listing", listings);
 app.use("/listing/:id/review", reviews);
+app.use("/",userRoute);
 
 app.all("*", (req, res, next) => {
     next(new expressError(404, "page not found"));
