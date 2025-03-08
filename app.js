@@ -11,19 +11,19 @@ const expressError = require('./utils/expressError.js');
 const { listingSchema, reviewSchema } = require("./schema.js");
 // const review = require('./Models/review.js');
 const reviews = require("./routes/review.js");
-const cookieParser= require("cookie-parser");
-const session= require("express-session");
-const flash= require("connect-flash");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const flash = require("connect-flash");
 const LocalStrategy = require("passport-local");
-const User= require("./Models/user.js");
-const userRoute= require("./routes/user.js");
-const sessionOption= {
-    secret:"mysupersecretcode",
+const User = require("./Models/user.js");
+const userRoute = require("./routes/user.js");
+const sessionOption = {
+    secret: "mysupersecretcode",
     resave: false,
     saveUninitialized: true,
-    cookie:{
-        expires: Date.now() + 7 *24 * 60 * 60 * 1000,
-        maxAge: 7 *24 * 60 * 60 * 1000,
+    cookie: {
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
     }
 }
@@ -70,23 +70,26 @@ const validateReview = (req, res, next) => {
     }
 }
 
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    res.locals.user = req.user;
+    next();
+})
 
 app.get("/", wrapAsync((req, res) => {
-    // console.dir(req.cookies);
-    // let {name="no-one"}=req.cookies;
-    res.render("listings/home.ejs");
-    // res.send(`hello ${name}`);
+    res.render(`listings/home.ejs`);
 }));
 
-app.get("/demouser",async(req,res)=>{
-    let fakeuser=new User({
+app.get("/demouser", async (req, res) => {
+    let fakeuser = new User({
         email: "sonu@gmail.com",
         username: "sonu"
     });
-    let newuser= await User.register(fakeuser,"password");
+    let newuser = await User.register(fakeuser, "password");
     console.log(newuser);
     res.send(newuser);
-})
+});
 
 // app.get("/getcookies",(req,res)=>{
 //     res.cookie("name","sonu");
@@ -94,15 +97,9 @@ app.get("/demouser",async(req,res)=>{
 //     res.send("cookie found");
 // });
 
-app.use((req,res,next)=>{
-    res.locals.success=req.flash("success");
-    res.locals.error=req.flash("error");
-    next();
-})
-
 app.use("/listing", listings);
 app.use("/listing/:id/review", reviews);
-app.use("/",userRoute);
+app.use("/", userRoute);
 
 app.all("*", (req, res, next) => {
     next(new expressError(404, "page not found"));

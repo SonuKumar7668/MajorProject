@@ -7,13 +7,13 @@
     <div class="card col-6 offset-3">
       <img src="<%=content.image%>" class="card-img-top show-img" alt="..." />
       <div class="card-body">
-        <p class="card-text">
+        <p class="card-text"><b><%= content.owner.username %></b></p>
           <!-- <b><%=content.title%></b> -->
-          <%=content.description %> &#8377;<%=content.price %>
-          <%=content.location %> <%=content.Country %>
-        </p>
+          <p class="card-text"><%=content.description %> &#8377;<%=content.price %></p>
+          <p class="card-text"><%=content.location %> <%=content.Country %></p>
       </div>
     </div>
+    <% if(user && user._id.equals(content.owner._id)){ %>
     <div class="btns">
       <form action="/listing/<%= content._id %>/edit" method="get">
         <button class="btn btn-dark">edit</button>
@@ -25,6 +25,8 @@
         <button class="btn btn-dark offset-4">Delete</button>
       </form>
     </div>
+    <% } %>
+    <% if(user){ %>
     <div class="review col-8 offset-3">
       <hr />
       <h4>Leave a review</h4>
@@ -60,6 +62,7 @@
         <button class="btn btn-outline-dark">submit</button>
       </form>
     </div>
+    <% } %>
     <div class="showreview col-8 offset-3">
       <hr />
       <p><b>All reviews</b></p>
@@ -67,7 +70,7 @@
       <!-- <li>, <b> Stars</b></li> -->
       <div class="card col-6">
         <div class="card-body">
-          <h5 class="card-title">John Doe</h5>
+          <h5 class="card-title"><%=review.author.username %></h5>
           <div class="card-text"><%=review.comment%></div>
           <div class="card-text"><%=review.rating%> Stars</div>
         </div>
