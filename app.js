@@ -1,3 +1,8 @@
+// if(process.env.NOD_ENV !="production"){
+//     require('dotenv').config()
+// }
+// console.log(process.env.SECRET)
+
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -5,11 +10,9 @@ const methodoverride = require("method-override");
 const engine = require('ejs-mate');
 const app = express();
 const port = 3000;
-// const listing = require('./Models/listing.js');
 const wrapAsync = require('./utils/wrapAsync.js');
 const expressError = require('./utils/expressError.js');
 const { listingSchema, reviewSchema } = require("./schema.js");
-// const review = require('./Models/review.js');
 const reviews = require("./routes/review.js");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -77,19 +80,19 @@ app.use((req, res, next) => {
     next();
 })
 
-app.get("/", wrapAsync((req, res) => {
+app.get("/", wrapAsync(async (req, res) => {
     res.render(`listings/home.ejs`);
 }));
 
-app.get("/demouser", async (req, res) => {
-    let fakeuser = new User({
-        email: "sonu@gmail.com",
-        username: "sonu"
-    });
-    let newuser = await User.register(fakeuser, "password");
-    console.log(newuser);
-    res.send(newuser);
-});
+// app.get("/demouser", async (req, res) => {
+//     let fakeuser = new User({
+//         email: "sonu@gmail.com",
+//         username: "sonu"
+//     });
+//     let newuser = await User.register(fakeuser, "password");
+//     console.log(newuser);
+//     res.send(newuser);
+// });
 
 // app.get("/getcookies",(req,res)=>{
 //     res.cookie("name","sonu");
@@ -106,11 +109,11 @@ app.all("*", (req, res, next) => {
 });
 
 
-app.use((err, req, res, next) => {
-    let { statusCode = 500, message = "undefined" } = err;
-    // res.status(statusCode).send(message);
-    res.status(statusCode).render("error.ejs", { message });
-});
+// app.use((err, req, res, next) => {
+//     let { statusCode = 500, message = "undefined error" } = err;
+//     // res.status(statusCode).send(message);
+//     res.status(statusCode).render("error.ejs", { message });
+// });
 
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";

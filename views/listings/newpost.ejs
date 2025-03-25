@@ -1,34 +1,24 @@
 <% layout("layout/boilerplate.ejs") %>
-<body>
-  <div class="row">
-    <div class="col-8 offset-2">
-      <h3>New Post</h3>
-      <form action="/listing/newlist" method="POST" novalidate class="needs-validation">
-        <div class="mb-3">
-          <lable for="title" class="form-lable">Title</lable>
-          <input
-            type="text"
-            name="listing[title]"
-            placeholder="title"
-            class="form-control"
-            required
-          />
-          <div class="valid-feedback">Looks good</div>
-          <div class="invalid-feedback">Required</div>
-        </div>
-        <div class="mb-3">
-          <lable for="description" class="form-lable">description</lable>
-          <textarea
-            name="listing[description]"
-            placeholder="description"
-            id="description"
-            class="form-control"
-            required
-          ></textarea>
-          <div class="valid-feedback">Looks good</div>
-          <div class="invalid-feedback">Required</div>
-        </div>
-        <div class="md-3">
+
+  <body>
+    <div class="row">
+      <div class="col-8 offset-2">
+        <h3>New Post</h3>
+        <form action="/listing" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
+          <div class="mb-3">
+            <lable for="title" class="form-lable">Title</lable>
+            <input type="text" name="listing[title]" placeholder="title" class="form-control" required />
+            <div class="valid-feedback">Looks good</div>
+            <div class="invalid-feedback">Required</div>
+          </div>
+          <div class="mb-3">
+            <lable for="description" class="form-lable">description</lable>
+            <textarea name="listing[description]" placeholder="description" id="description" class="form-control"
+              required></textarea>
+            <div class="valid-feedback">Looks good</div>
+            <div class="invalid-feedback">Required</div>
+          </div>
+          <!-- <div class="md-3">
           <lable for="image">image-link</lable>
           <input
             type="text"
@@ -36,47 +26,33 @@
             placeholder="image-link"
             class="form-control"
           />
-        </div>
-        <div class="row">
-          <div class="mb-3 col-md-4">
-            <lable for="price" class="form-lable">Price</lable>
-            <input
-              type="number"
-              name="listing[price]"
-              placeholder="Price"
-              class="form-control"
-              required
-            />
+        </div> -->
+          <div class="md-3">
+            <lable for="image">Uplode-image</lable>
+            <input type="file" name="listing[image]" class="form-control" required />
+          </div>
+          <div class="row">
+            <div class="mb-3 col-md-4">
+              <lable for="price" class="form-lable">Price</lable>
+              <input type="number" name="listing[price]" placeholder="Price" class="form-control" required />
+              <div class="valid-feedback">Looks good</div>
+              <div class="invalid-feedback">Required</div>
+            </div>
+            <div class="mb-3 col-md-8">
+              <lable for="Country" class="form-lable">Country</lable>
+              <input type="text" name="listing[Country]" placeholder="Country" class="form-control" required />
+              <div class="valid-feedback">Looks good</div>
+              <div class="invalid-feedback">Required</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <lable for="location" class="form-lable">location</lable>
+            <input type="text" name="listing[location]" placeholder="location" class="form-control" required />
             <div class="valid-feedback">Looks good</div>
             <div class="invalid-feedback">Required</div>
           </div>
-          <div class="mb-3 col-md-8">
-            <lable for="Country" class="form-lable">Country</lable>
-            <input
-              type="text"
-              name="listing[Country]"
-              placeholder="Country"
-              class="form-control"
-              required
-            />
-            <div class="valid-feedback">Looks good</div>
-            <div class="invalid-feedback">Required</div>
-          </div>
-        </div>
-        <div class="mb-3">
-          <lable for="location" class="form-lable">location</lable>
-          <input
-            type="text"
-            name="listing[location]"
-            placeholder="location"
-            class="form-control"
-            required
-          />
-          <div class="valid-feedback">Looks good</div>
-          <div class="invalid-feedback">Required</div>
-        </div>
-        <button class="btn btn-dark">Submit</button>
-      </form>
+          <button class="btn btn-dark">Submit</button>
+        </form>
+      </div>
     </div>
-  </div>
-</body>
+  </body>

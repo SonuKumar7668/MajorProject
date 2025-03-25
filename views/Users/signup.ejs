@@ -1,46 +1,28 @@
 <% layout("layout/boilerplate.ejs") %>
 
-<div class="row mt-3">
-  <div class="col-6 offset-3">
-    <h1>SignUp</h1>
-    <form action="/signup" method="post" class="needs-validation" novalidate>
-      <div class="mb-3">
-        <lable for="username" class="form-lable">username</lable>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          class="form-control"
-          required
-        />
-        <div class="valid-feedback">Looks good</div>
-        <div class="invalid-feedback">Required</div>
-      </div>
-      <div class="mb-3">
-        <lable for="email" class="form-lable">email</lable>
-        <input
-          type="text"
-          name="email"
-          placeholder="email"
-          class="form-control"
-          required
-        />
-        <div class="valid-feedback">Looks good</div>
-        <div class="invalid-feedback">Required</div>
-      </div>
-      <div class="mb-3">
-        <lable for="password" class="form-lable">password</lable>
-        <input
-          type="password"
-          name="password"
-          placeholder="password"
-          class="form-control"
-          required
-        />
-        <div class="valid-feedback">Looks good</div>
-        <div class="invalid-feedback">Required</div>
-      </div>
-      <button class="btn btn-success">SignUp</button>
-    </form>
+  <div class="row mt-3">
+    <div class="col-6 offset-3">
+      <h1>SignUp</h1>
+      <form action="/signup" method="post" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <lable for="username" class="form-lable">username</lable>
+          <input type="text" name="username" placeholder="Username" class="form-control" required />
+          <div class="valid-feedback">Looks good</div>
+          <div class="invalid-feedback">Required</div>
+        </div>
+        <div class="mb-3">
+          <lable for="email" class="form-lable">email</lable>
+          <input type="text" name="email" placeholder="email" class="form-control" required />
+          <div class="valid-feedback">Looks good</div>
+          <div class="invalid-feedback">Required</div>
+        </div>
+        <div class="mb-3">
+          <lable for="password" class="form-lable">password</lable>
+          <input type="password" name="password" placeholder="password" class="form-control" required />
+          <div class="valid-feedback">Looks good</div>
+          <div class="invalid-feedback">Required</div>
+        </div>
+        <button class="btn btn-success">SignUp</button>
+      </form>
+    </div>
   </div>
-</div>
