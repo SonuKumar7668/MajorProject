@@ -1,8 +1,3 @@
-// if(process.env.NOD_ENV !="production"){
-//     require('dotenv').config()
-// }
-// console.log(process.env.SECRET)
-
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -81,24 +76,9 @@ app.use((req, res, next) => {
 })
 
 app.get("/", wrapAsync(async (req, res) => {
-    res.render(`listings/home.ejs`);
+    // res.render(`listings/home.ejs`);
+    res.redirect("/listing");
 }));
-
-// app.get("/demouser", async (req, res) => {
-//     let fakeuser = new User({
-//         email: "sonu@gmail.com",
-//         username: "sonu"
-//     });
-//     let newuser = await User.register(fakeuser, "password");
-//     console.log(newuser);
-//     res.send(newuser);
-// });
-
-// app.get("/getcookies",(req,res)=>{
-//     res.cookie("name","sonu");
-//     // res.cookie("greet","hello");
-//     res.send("cookie found");
-// });
 
 app.use("/listing", listings);
 app.use("/listing/:id/review", reviews);
@@ -109,22 +89,16 @@ app.all("*", (req, res, next) => {
 });
 
 
-// app.use((err, req, res, next) => {
-//     let { statusCode = 500, message = "undefined error" } = err;
-//     // res.status(statusCode).send(message);
-//     res.status(statusCode).render("error.ejs", { message });
-// });
+app.use((err, req, res, next) => {
+    let { statusCode = 500, message = "undefined error" } = err;
+    // res.status(statusCode).send(message);
+    res.status(statusCode).render("error.ejs", { message });
+});
 
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
 main()
-// .then((res)=>{
-//     console.log(res);
-// })
-// .catch((err)=>{
-//     console.log(err);
-// })
 
 async function main() {
     await mongoose.connect(MONGO_URL);
