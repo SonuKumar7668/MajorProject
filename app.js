@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('dotenv').config();
+const dburl = process.env.ATLASDB_URL;
 const path = require('path');
 const methodoverride = require("method-override");
 const engine = require('ejs-mate');
@@ -11,12 +13,35 @@ const { listingSchema, reviewSchema } = require("./schema.js");
 const reviews = require("./routes/review.js");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const LocalStrategy = require("passport-local");
 const User = require("./Models/user.js");
 const userRoute = require("./routes/user.js");
+const searchRoute = require("./routes/search.js");
+// console.log("Database URL:", dburl);
+
+main()
+
+async function main() {
+    await mongoose.connect(dburl);
+}
+
+const store = MongoStore.create({
+    mongoUrl : dburl,
+    crypto: {
+        secret: "helloworld"
+    },
+    touchAfter: 24 * 3600,
+});
+
+store.on("error",(err)=>{
+    console.log("error in MONGO session store",err);
+});
+
 const sessionOption = {
-    secret: "mysupersecretcode",
+    store: store,
+    secret: "helloworld",
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -82,6 +107,7 @@ app.get("/", wrapAsync(async (req, res) => {
 
 app.use("/listing", listings);
 app.use("/listing/:id/review", reviews);
+app.use("/search",searchRoute);
 app.use("/", userRoute);
 
 app.all("*", (req, res, next) => {
@@ -96,13 +122,7 @@ app.use((err, req, res, next) => {
 });
 
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
-
-main()
-
-async function main() {
-    await mongoose.connect(MONGO_URL);
-}
+// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
 app.listen(port, (req, res) => {
     console.log(`server is running on port ${port}`);
